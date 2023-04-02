@@ -20,19 +20,20 @@ function generarClave() {
   }
   
   // Función para descifrar un mensaje utilizando la clave de cifrado
-   function descifrarMensaje(mensajeCifrado, clave) {
-     let mensajeDescifrado = "";
-     for (let i = 0; i < mensajeCifrado.length; i++) {
-       let letraCifrada = mensajeCifrado[i];
-       let desplazamiento = parseInt(clave[i % clave.length]);
-       let nuevaLetra = String.fromCharCode(((letraCifrada.charCodeAt(0) - 65 - desplazamiento + 26) % 26) + 65);
-       mensajeDescifrado += nuevaLetra;
-     }
-     return mensajeDescifrado;
-   }
+  function descifrarMensaje(mensajeCifrado, clave) {
+    let mensajeDescifrado = "";
+    for (let i = 0; i < mensajeCifrado.length; i++) {
+      let letraCifrada = mensajeCifrado[i];
+      let desplazamiento = parseInt(clave[i % clave.length]);
+      let nuevaLetra = String.fromCharCode(((letraCifrada.charCodeAt(0) - 65 - desplazamiento + 26) % 26) + 65);
+      mensajeDescifrado += nuevaLetra;
+    }
+    return mensajeDescifrado;
+  }
+  
   
   // Mensaje a cifrar
-  let mensajeOriginal = "Luis es marico.";
+  let mensajeOriginal = "Hola, me llamo Jose y tengo 20";
   
   // Generar una clave aleatoria de cifrado
   let clave = generarClave();
