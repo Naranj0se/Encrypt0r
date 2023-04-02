@@ -1,6 +1,22 @@
+const aEncriptar = document.querySelector('#mensaje'); 
+const botonGenerar = document.querySelector('.generar-button');
+const clave = document.querySelector('#clave');
+const botonEncriptalo = document.querySelector('.login-button'); 
+const msjEncriptado = document.querySelector('.encriptado');
+
+function rellenaClave(){
+  var claveGenerada = generarClave()
+  clave.setAttribute('value', claveGenerada);
+};
+
+function encriptador(){
+  let encriptacion = cifrarMensaje(aEncriptar.value.toUpperCase(), clave.value);
+  msjEncriptado.setAttribute('value', encriptacion); 
+}
+
 // Función para generar una clave aleatoria de cifrado
 function generarClave() {
-    let clave = "";
+    var clave = "";
     for (let i = 0; i < 10; i++) {
       clave += Math.floor(Math.random() * 10);
     }
@@ -30,8 +46,10 @@ function generarClave() {
     }
     return mensajeDescifrado;
   }
+
+
   
-  
+  /*
   // Mensaje a cifrar
   let mensajeOriginal = "Hola, me llamo Jose y tengo 20";
   
@@ -49,3 +67,4 @@ function generarClave() {
   console.log("Mensaje cifrado: " + mensajeCifrado);
   console.log("Mensaje descifrado: " + mensajeDescifrado);
   console.log("Clave de cifrado: " + clave);
+  */

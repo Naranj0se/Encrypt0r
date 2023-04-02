@@ -111,6 +111,18 @@
             margin: 4px;
             width: 22px;
         }
+        .generar-button{
+            background: var(--hospital-green);
+            border: none;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+            color: var(--white);
+            width: 100%;
+            cursor: pointer;
+            font-size: var(--md);
+            font-weight: bold;
+            height: 50px;
+        }
         @media (max-width:640px){
             .logo{
                 display: block;
@@ -125,18 +137,22 @@
     <div class="login">
         <div class="form-container">
             <div class="form">
-                <label for="email" class="label">Introduce el mensaje a encriptar:</label>
-                <input type="text" id="email" placeholder="Mensaje ultra secreto" class="input input-email">
+                <label for="mensaje" class="label">Introduce el mensaje a encriptar:</label>
+                <input type="text" id="mensaje" placeholder="Mensaje ultra secreto" class="input input-email">
 
-                <label for="password" class="label">Introduce la clave de encriptación:</label>
-                <input type="password" id="password" placeholder="5133745387" class="input input-password">
+                <label for="clave" class="label">Clave de encriptación:</label>
+                <div class="msj-container">
+                    <button class="generar-button" onclick="rellenaClave()">Generar</button>
+                    <input type="text" id="clave"  placeholder="Haz click para generar!" class="input" readonly>
+                </div>
 
-                <input type="submit" value="Encriptalo!" class="primary-button login-button">
+                <!-- <input type="submit" value="Encriptalo!" class="primary-button login-button" onclick="encriptalo()"> -->
+                <button class="primary-button login-button" onclick="encriptador()">Encriptalo!</button>
 
                 <div class="mensaje-encriptado inactive">
                     <h3>Mensaje encriptado: </h1>
                     <div class="msj-container">
-                        <input type="text" placeholder="Mensaje ultra secreto" class="input" readonly>
+                        <input type="text" placeholder="Mensaje ultra secreto" class="input encriptado" readonly>
                         <img src="./img/editcopy_104475.png" alt="">
                     </div>
                 </div>
@@ -146,5 +162,6 @@
 
         </div>
     </div>
+    <script src="/main.js"></script>
 </body>
 </html>
