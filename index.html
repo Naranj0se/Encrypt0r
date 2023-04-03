@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
-    <title>Document</title>
+    <title>Encrypt0r</title>
     <style>
         :root{
             --background-dark: #2d2872;
@@ -23,6 +23,9 @@
         body{
             font-family: 'Quicksand', sans-serif;
             margin: 0;
+        }
+        .title{
+            color: var(--hospital-green);
         }
         .login{
             background: var(--background-dark);
@@ -107,9 +110,17 @@
             margin: 0;
         }
         .msj-container img{
+            cursor: pointer;
             position: relative;
             margin: 4px;
             width: 22px;
+        }
+        .clave-container{
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+        }
+        .clave-container input{
+            width: 180px;
         }
         .generar-button{
             background: var(--hospital-green);
@@ -135,15 +146,17 @@
 </head>
 <body>
     <div class="login">
+        <h1 class="title">Encriptador</h1>
         <div class="form-container">
             <div class="form">
                 <label for="mensaje" class="label">Introduce el mensaje a encriptar:</label>
                 <input type="text" id="mensaje" placeholder="Mensaje ultra secreto" class="input input-email">
 
                 <label for="clave" class="label">Clave de encriptación:</label>
-                <div class="msj-container">
+                <div class="msj-container clave-container">
                     <button class="generar-button" onclick="rellenaClave()">Generar</button>
                     <input type="text" id="clave"  placeholder="Haz click para generar!" class="input" readonly>
+                    <img src="./img/editcopy_104475.png" alt="copiar al portapapeles" id="portapapeles1" onclick="portapapeles(1)">
                 </div>
 
                 <!-- <input type="submit" value="Encriptalo!" class="primary-button login-button" onclick="encriptalo()"> -->
@@ -153,7 +166,7 @@
                     <h3>Mensaje encriptado: </h1>
                     <div class="msj-container">
                         <input type="text" placeholder="Mensaje ultra secreto" class="input encriptado" readonly>
-                        <img src="./img/editcopy_104475.png" alt="">
+                        <img src="./img/editcopy_104475.png" alt="copiar al portapapeles" id="portapapeles2" onclick="portapapeles(2)">
                     </div>
                 </div>
             </div>

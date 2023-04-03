@@ -3,6 +3,20 @@ const botonGenerar = document.querySelector('.generar-button');
 const clave = document.querySelector('#clave');
 const botonEncriptalo = document.querySelector('.login-button'); 
 const msjEncriptado = document.querySelector('.encriptado');
+// const copiaClave = document.querySelector('#portapapeles1');
+// const copiaMensaje = document.querySelector('#portapapeles2');
+
+// copiaClave.addEventListener('click', portapapeles(1));
+// copiaMensaje.addEventListener('click', portapapeles(2));
+
+function portapapeles(boton){
+  switch(boton){
+    case 1: navigator.clipboard.writeText(clave.value);
+    break;
+    case 2: navigator.clipboard.writeText(msjEncriptado.value);
+    break;
+  };
+}
 
 function rellenaClave(){
   var claveGenerada = generarClave()
