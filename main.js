@@ -1,13 +1,12 @@
+// Declaracion de variables referentes a objetos del HTML
+
 const aEncriptar = document.querySelector('#mensaje'); 
 const botonGenerar = document.querySelector('.generar-button');
 const clave = document.querySelector('#clave');
 const botonEncriptalo = document.querySelector('.login-button'); 
 const msjEncriptado = document.querySelector('.encriptado');
-// const copiaClave = document.querySelector('#portapapeles1');
-// const copiaMensaje = document.querySelector('#portapapeles2');
 
-// copiaClave.addEventListener('click', portapapeles(1));
-// copiaMensaje.addEventListener('click', portapapeles(2));
+// Funciones referentes a objetos del HTML
 
 function portapapeles(boton){
   switch(boton){
@@ -19,66 +18,107 @@ function portapapeles(boton){
 }
 
 function rellenaClave(){
-  var claveGenerada = generarClave()
-  clave.setAttribute('value', claveGenerada);
+  if(aEncriptar.value == ''){
+    window.alert('No es posible generar una clave sino ha escrito el mensaje a encriptar.');
+  }
+  else{
+    let claveGenerada = generarClave(); 
+    clave.setAttribute('value', claveGenerada);
+    return claveGenerada;
+  }
 };
 
+
 function encriptador(){
-  let encriptacion = cifrarMensaje(aEncriptar.value.toUpperCase(), clave.value);
-  msjEncriptado.setAttribute('value', encriptacion); 
+  if(aEncriptar.value.includes('\'') || aEncriptar.value.includes('\"') || aEncriptar.value.includes('\`')){
+    window.alert('El uso de los caracteres \'  \"  \` no está permitido');
+  }
+  else if(aEncriptar.value == '' || clave.value == ''){
+    window.alert('Asegurese de haber llenado todos los campos antes de encriptar.');
+  }
+  else{
+    let encriptacion = cifrarMensaje(aEncriptar.value, asignaClave(clave.value, aEncriptar.value));
+    msjEncriptado.setAttribute('value', encriptacion); 
+  }
 }
 
+// Funciones y Variables de la logica de encriptación
+
+// Alfabeto principal
+const alphabet = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789 !#$%&()*+,-./:;<=>?@[\\]^_{|}áéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸåÅæÆœŒçÇðÐøØ¿¡ß~°";
+
+/* Tabla de Gronsfeld hecha con 10 alfabetos que contienen la mayoría de caracteres disponibles
+derivados del alfabeto principal. 
+*/
+let gronsfeldTabla = [
+    "CDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789 !#$%&()*+,-./:;<=>?@[\\]^_{|}áéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸåÅæÆœŒçÇðÐøØ¿¡ß~°AB",
+    "DEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789 !#$%&()*+,-./:;<=>?@[\\]^_{|}áéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸåÅæÆœŒçÇðÐøØ¿¡ß~°ABC",
+    "FGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789 !#$%&()*+,-./:;<=>?@[\\]^_{|}áéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸåÅæÆœŒçÇðÐøØ¿¡ß~°ABCDE",
+    "HIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789 !#$%&()*+,-./:;<=>?@[\\]^_{|}áéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸåÅæÆœŒçÇðÐøØ¿¡ß~°ABCDEFG",
+    "LMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789 !#$%&()*+,-./:;<=>?@[\\]^_{|}áéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸåÅæÆœŒçÇðÐøØ¿¡ß~°ABCDEFGHIJK",
+    "NÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789 !#$%&()*+,-./:;<=>?@[\\]^_{|}áéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸåÅæÆœŒçÇðÐøØ¿¡ß~°ABCDEFGHIJKLM",
+    "RSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789 !#$%&()*+,-./:;<=>?@[\\]^_{|}áéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸåÅæÆœŒçÇðÐøØ¿¡ß~°ABCDEFGHIJKLMNÑOPQ",
+    "TUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789 !#$%&()*+,-./:;<=>?@[\\]^_{|}áéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸåÅæÆœŒçÇðÐøØ¿¡ß~°ABCDEFGHIJKLMNÑOPQRS",
+    "XYZabcdefghijklmnñopqrstuvwxyz0123456789 !#$%&()*+,-./:;<=>?@[\\]^_{|}áéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸåÅæÆœŒçÇðÐøØ¿¡ß~°ABCDEFGHIJKLMNÑOPQRSTUVW",
+    "CDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789 !#$%&()*+,-./:;<=>?@[\\]^_{|}áéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸåÅæÆœŒçÇðÐøØ¿¡ß~°AB"
+  ];
+  
 // Función para generar una clave aleatoria de cifrado
 function generarClave() {
+  if(aEncriptar.value.length < 8){
     var clave = "";
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < (aEncriptar.value.length / 2); i++) {
       clave += Math.floor(Math.random() * 10);
     }
     return clave;
   }
-  
-  // Función para cifrar un mensaje utilizando el método Gronsfeld
-  function cifrarMensaje(mensaje, clave) {
-    let mensajeCifrado = "";
-    for (let i = 0; i < mensaje.length; i++) {
-      let letra = mensaje[i];
-      let desplazamiento = parseInt(clave[i % clave.length]);
-      let nuevaLetra = String.fromCharCode(((letra.charCodeAt(0) - 65 + desplazamiento) % 26) + 65);
-      mensajeCifrado += nuevaLetra;
+  else{
+    var clave = "";
+    for (let i = 0; i < 8; i++) {
+      clave += Math.floor(Math.random() * 10);
     }
-    return mensajeCifrado;
+    return clave;
   }
-  
-  // Función para descifrar un mensaje utilizando la clave de cifrado
-  function descifrarMensaje(mensajeCifrado, clave) {
-    let mensajeDescifrado = "";
-    for (let i = 0; i < mensajeCifrado.length; i++) {
-      let letraCifrada = mensajeCifrado[i];
-      let desplazamiento = parseInt(clave[i % clave.length]);
-      let nuevaLetra = String.fromCharCode(((letraCifrada.charCodeAt(0) - 65 - desplazamiento + 26) % 26) + 65);
-      mensajeDescifrado += nuevaLetra;
-    }
-    return mensajeDescifrado;
+  }
+ 
+// Funcion que iguala la cantidad de caracteres entre la clave y el mensaje a encriptar o desencriptar
+
+  function asignaClave(claveGenerada, mensaje){
+      asignada = claveGenerada.repeat(aEncriptar.value.length);
+      return asignada.substring(0, mensaje.length);
   }
 
-
+// Funcion que cifra el mensaje utilizando el método de Gronsfeld
   
-  /*
-  // Mensaje a cifrar
-  let mensajeOriginal = "Hola, me llamo Jose y tengo 20";
+  function cifrarMensaje(mensaje, clave){
+      let codificado = '';
+      let mensajeModificado = mensaje;
+      let claveMod = clave;
   
-  // Generar una clave aleatoria de cifrado
-  let clave = generarClave();
+          for (element of mensajeModificado){
+              let elementoClave = claveMod[0];  
+              let elementoAlfabeto = alphabet.indexOf(element);
+              
+              codificado = codificado + (gronsfeldTabla[elementoClave][elementoAlfabeto]);
+              mensajeModificado = mensajeModificado.slice(1);  
+              claveMod = claveMod.slice(1); 
+          }
+      return codificado;
+  };
   
-  // Cifrar el mensaje utilizando el método Gronsfeld
-  let mensajeCifrado = cifrarMensaje(mensajeOriginal.toUpperCase(), clave);
+// Funcion que descifra el mensaje codificado utilizando el metodo de Gronsfeld a la inversa
   
-  // Descifrar el mensaje utilizando la clave de cifrado
-  let mensajeDescifrado = descifrarMensaje(mensajeCifrado.toUpperCase(), clave);
+  function descifrarMensaje(cifrado, clave){
+      let descifrado = '';
+      let cifradoMod = cifrado;
+      let claveMod = asignaClave(clave, cifrado);
+          for (element of cifradoMod){
+              let elementoClave = parseInt(claveMod[cifradoMod.indexOf(element)]);    
+              let elementoTabla = gronsfeldTabla[elementoClave].indexOf(element); 
   
-  // Mostrar el mensaje original, el mensaje cifrado, el mensaje descifrado y la clave de cifrado
-  console.log("Mensaje original: " + mensajeOriginal);
-  console.log("Mensaje cifrado: " + mensajeCifrado);
-  console.log("Mensaje descifrado: " + mensajeDescifrado);
-  console.log("Clave de cifrado: " + clave);
-  */
+              descifrado = descifrado + alphabet[elementoTabla];
+              cifradoMod = cifradoMod.slice(1);
+              claveMod = claveMod.slice(1);
+          }
+      return descifrado; 
+  }
