@@ -1,10 +1,10 @@
 // Declaracion de variables referentes a objetos del HTML
 
-const aEncriptar = document.querySelector('#mensaje'); 
+let aEncriptar = document.querySelector('#mensaje'); 
 const botonGenerar = document.querySelector('.generar-button');
 const clave = document.querySelector('#clave');
 const botonEncriptalo = document.querySelector('.login-button'); 
-const msjEncriptado = document.querySelector('.encriptado');
+const msjEncriptado = document.querySelector('.encriptador');
 
 // Funciones referentes a objetos del HTML
 
@@ -23,7 +23,8 @@ function rellenaClave(){
   }
   else{
     let claveGenerada = generarClave(); 
-    clave.setAttribute('value', claveGenerada);
+    clave.value = claveGenerada
+    console.log('Hola soy la generacion')
     return claveGenerada;
   }
 };
@@ -38,7 +39,20 @@ function encriptador(){
   }
   else{
     let encriptacion = cifrarMensaje(aEncriptar.value, asignaClave(clave.value, aEncriptar.value));
-    msjEncriptado.setAttribute('value', encriptacion); 
+    msjEncriptado.value = encriptacion; 
+  }
+}
+
+function desencriptador(){
+  if(aEncriptar.value.includes('\'') || aEncriptar.value.includes('\"') || aEncriptar.value.includes('\`')){
+    window.alert('El uso de los caracteres \'  \"  \` no está permitido');
+  }
+  else if(aEncriptar.value == '' || inputClave.value == ''){
+    window.alert('Asegurese de haber llenado todos los campos antes de encriptar.');
+  }
+  else{
+    let desencriptacion = descifrarMensaje(aEncriptar.value, asignaClave(inputClave.value, aEncriptar.value));
+    msjEncriptado.value = desencriptacion; 
   }
 }
 
@@ -122,3 +136,83 @@ function generarClave() {
           }
       return descifrado; 
   }
+
+// codigo referente al cambio de modalidad (encriptador <-> desencriptador)
+
+        const title = document.querySelector('.title-encriptado')
+        const button = document.querySelector('.secondary-button')
+        const body = document.querySelector('.encriptado')
+        const label = document.querySelector('.label')
+        const label2 = document.querySelector('.label2')
+        const label3 = document.querySelector('.label3')
+        const inputClave = document.querySelector('.input-clave')
+        const contenedorClave = document.querySelector('.clave-container')
+        const botonDesencriptalo = document.querySelector('.primary-button-2')
+        const portaIcon = document.querySelector('.icono-porta')
+
+
+        let isEncryptor = true
+
+        function limpiaCasillas(){
+            aEncriptar.value = '';
+            inputClave.value = "";
+            msjEncriptado.value = "";
+            clave.value = "";
+        }
+
+        button.addEventListener('click', e => {
+            isEncryptor = !isEncryptor 
+            const textTitle = isEncryptor ? 'Encriptador' :  'Desencriptador'
+            const buttonValue = isEncryptor ? 'Desencriptar Mensaje' : 'Encriptar Mensaje'
+            const textAEncriptar = isEncryptor ? 'Introduce el mensaje a encriptar:' : 'Introduce el mensaje a desencriptar:'
+            const textResultado = isEncryptor ? 'Mensaje encriptado:' : 'Mensaje desencriptado:'
+
+            title.textContent = textTitle
+            button.textContent = buttonValue
+            label.textContent = textAEncriptar
+            label3.textContent = textResultado;
+            
+
+            botonEncriptalo.addEventListener('click', e => {
+              console.log('Hola');
+            });
+      
+
+            if(!isEncryptor) {
+                body.classList.remove("encriptado")
+                body.classList.add("desencriptado")
+                title.classList.remove('title-encriptado')
+                title.classList.add('title-desencriptado')
+                botonEncriptalo.classList.add('inactive')
+                botonDesencriptalo.classList.remove('inactive')
+                botonGenerar.classList.add('inactive')
+                clave.classList.add('inactive')
+                portaIcon.classList.add('inactive')
+                label.classList.remove('label')
+                label2.classList.remove('label2')
+                label3.classList.remove('label3')
+                label.classList.add('label-2')
+                label2.classList.add('label-2')
+                label3.classList.add('label-2')
+                inputClave.classList.remove('inactive')
+                contenedorClave.classList.add('inactive')
+            } else {
+                body.classList.remove("desencriptado")
+                body.classList.add("encriptado")
+                title.classList.remove('title-desencriptado')
+                title.classList.add('title-encriptado')
+                botonEncriptalo.classList.remove('inactive')
+                botonDesencriptalo.classList.add('inactive')
+                botonGenerar.classList.remove('inactive')
+                clave.classList.remove('inactive')
+                portaIcon.classList.remove('inactive')
+                label.classList.remove('label-2')
+                label2.classList.remove('label-2')
+                label3.classList.remove('label-2')
+                label.classList.add('label')
+                label2.classList.add('label2')
+                label3.classList.add('label3')
+                inputClave.classList.add('inactive')
+                contenedorClave.classList.remove('inactive')
+            }
+        })

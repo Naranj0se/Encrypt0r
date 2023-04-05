@@ -13,15 +13,30 @@ body{
     font-family: 'Quicksand', sans-serif;
     margin: 0;
 }
-.title{
+.inactive{
+    display: none;
+}
+.title-encriptado{
     color: var(--hospital-green);
 }
-.login{
+.title-desencriptado{
+    color: var(--background-dark);
+}
+.encriptado{
     background: var(--background-dark);
     width: 100%;
     height: 100vh;
     display: grid;
     place-items: center;
+    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1) background;
+}
+.desencriptado{
+    background: var(--hospital-green);
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1) background;  
 }
 .form-container{
     display: grid;
@@ -30,7 +45,13 @@ body{
 }
 .label{
     color: var(--very-light-pink);
-    font-size: var(--sm);
+    font-size: var(--md);
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+.label-2{
+    color: var(--white);
+    font-size: var(--md);
     font-weight: bold;
     margin-bottom: 4px;
 }
@@ -62,6 +83,17 @@ body{
     border: none;
     border-radius: 8px;
     color: var(--white);
+    width: 100%;
+    cursor: pointer;
+    font-size: var(--md);
+    font-weight: bold;
+    height: 50px;
+}
+.primary-button-2{
+    background: var(--background-dark);
+    border: none;
+    border-radius: 8px;
+    color: var(--very-light-pink);
     width: 100%;
     cursor: pointer;
     font-size: var(--md);
@@ -117,6 +149,18 @@ body{
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
     color: var(--white);
+    width: 100%;
+    cursor: pointer;
+    font-size: var(--md);
+    font-weight: bold;
+    height: 50px;
+}
+.generar-button-2{
+    background: var(--background-dark);
+    border: none;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    color: var(--very-light-pink);
     width: 100%;
     cursor: pointer;
     font-size: var(--md);

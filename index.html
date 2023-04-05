@@ -11,33 +11,35 @@
     <title>Encrypt0r</title>
 </head>
 <body>
-    <div class="login">
-        <h1 class="title">Encriptador</h1>
+    <div class="encriptado">
+        <h1 class="title-encriptado">Encriptador</h1>
         <div class="form-container">
             <div class="form">
                 <label for="mensaje" class="label">Introduce el mensaje a encriptar:</label>
                 <input type="text" id="mensaje" placeholder="Mensaje ultra secreto" class="input input-email">
 
-                <label for="clave" class="label">Clave de encriptación:</label>
+                <label for="clave" class="label2 label">Clave de encriptación:</label>
+                <input type="text" id="mensaje" placeholder="Mensaje ultra secreto" class="input input-clave inactive">
                 <div class="msj-container clave-container">
                     <button class="generar-button" onclick="rellenaClave()">Generar</button>
                     <input type="text" id="clave"  placeholder="Haz click para generar!" class="input" readonly>
-                    <img src="./img/editcopy_104475.png" alt="copiar al portapapeles" id="portapapeles1" onclick="portapapeles(1)">
+                    <img class="icono-porta" src="./img/editcopy_104475.png" alt="copiar al portapapeles" id="portapapeles1" onclick="portapapeles(1)">
                 </div>
 
                 <!-- <input type="submit" value="Encriptalo!" class="primary-button login-button" onclick="encriptalo()"> -->
                 <button class="primary-button login-button" onclick="encriptador()">Encriptalo!</button>
+                <button class="primary-button-2 login-button inactive" onclick="desencriptador()">Desencriptalo!</button>
 
-                <div class="mensaje-encriptado inactive">
-                    <h3>Mensaje encriptado: </h1>
+                <div class="mensaje-encriptado">
+                    <h3 class="label3 label">Mensaje encriptado: </h3>
                     <div class="msj-container">
-                        <input type="text" placeholder="Mensaje ultra secreto" class="input encriptado" readonly>
+                        <input type="text" placeholder="Mensaje ultra secreto" class="input encriptador" readonly>
                         <img src="./img/editcopy_104475.png" alt="copiar al portapapeles" id="portapapeles2" onclick="portapapeles(2)">
                     </div>
                 </div>
             </div>
 
-            <button class="secondary-button signup-button">Quiero desencriptar un mensaje</button>
+            <button class="secondary-button signup-button" onclick="limpiaCasillas()">Quiero desencriptar un mensaje</button>
 
         </div>
     </div>
