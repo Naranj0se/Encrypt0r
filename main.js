@@ -37,6 +37,13 @@ function encriptador(){
   else if(aEncriptar.value == '' || clave.value == ''){
     window.alert('Asegurese de haber llenado todos los campos antes de encriptar.');
   }
+  else if(clave.value.length > aEncriptar.value.length || isNaN(clave.value)){
+    window.alert(`Hay un problema con la clave introducida.
+     
+Verifique que la clave sea menor o igual a la longitud del mensaje y que esté conformada unicamente por valores numéricos.
+
+Se le recomienda utilizar el botón "Generar" para obtener una clave válida.`);
+  }
   else{
     let encriptacion = cifrarMensaje(aEncriptar.value, asignaClave(clave.value, aEncriptar.value));
     msjEncriptado.value = encriptacion; 
