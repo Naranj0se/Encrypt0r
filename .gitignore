@@ -448,6 +448,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-img
-
 # End of https://www.toptal.com/developers/gitignore/api/windows,linux,macos,vs,visualstudiocode
